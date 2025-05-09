@@ -12,7 +12,7 @@ with defaultMonthly  as(
         from Employee
     )
     ,lookupSal as (
-        select distinct empId.id
+        select  empId.id
         ,defaultMonthly.month
         ,defaultMonthly.salary
     from defaultMonthly
