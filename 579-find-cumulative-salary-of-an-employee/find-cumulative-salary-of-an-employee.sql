@@ -1,13 +1,4 @@
 /* Write your PL/SQL query statement below */
--- with abc  as (
---     select id,month,salary,
---     max(month) over(partition by id) as max_month,
---     sum(salary) over(partition by id order by month desc rows between current row  and 2 Following) as cum_sum
---     from Employee
---     order by id asc,month desc
--- )select * from abc
--- where month<> max_month
-
 with defaultMonthly  as(
     select 
     level as month
@@ -16,7 +7,7 @@ with defaultMonthly  as(
     connect by level<13
     )
     , empId as (
-        select
+        select distinct
         id 
         from Employee
     )
