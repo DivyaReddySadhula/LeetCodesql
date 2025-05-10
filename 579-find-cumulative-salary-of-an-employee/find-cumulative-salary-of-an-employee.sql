@@ -17,7 +17,7 @@ with defaultMonthly  as(
         ,defaultMonthly.salary
     from defaultMonthly
     join empId on 1=1
-    order by id,month)
+    )
     ,cumSum as (
         select lk.id
         ,e.month
@@ -26,11 +26,12 @@ with defaultMonthly  as(
     left join Employee e 
     on  lk.id = e.id 
     and lk.month = e.month
-    order by 1,2 desc)
+  )
     select * 
     from cumSum c 
     where month is not null
     and (id,month) not in (select e.id, max(e.month) over(partition by e.id)  from employee e)
+      order by 1,2 desc
 
 
 
