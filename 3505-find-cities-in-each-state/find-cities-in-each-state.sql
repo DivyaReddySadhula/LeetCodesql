@@ -4,3 +4,4 @@ state
 ,LISTAGG(city,', ') WITHIN GROUP(ORDER BY state) as "cities"
 from cities
 group by state
+order by state
