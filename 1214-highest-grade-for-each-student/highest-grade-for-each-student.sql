@@ -4,7 +4,7 @@ select
 student_id
 ,course_id
 ,grade
-,rank() over(partition by student_id order by grade desc,course_id asc) as rnk
+,row_number() over(partition by student_id order by grade desc,course_id asc) as rnk
 from Enrollments
 )
 select student_id,course_id,grade from res where rnk =1
