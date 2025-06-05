@@ -1,19 +1,21 @@
-# Write your MySQL query statement below
--- select date(visited_on), round(avg(amount) over(order by date(visited_on) ROWS BETWEEN 6 preceding and CURRENT ROW  ),2) as average_amount from Customer
--- order by 1  
--- fetch NEXT 1 rows only;amount from cust
--- with tmp as (select visited_on,amount from customer)
--- select visited_on, sum(average_amount) as amount,round(sum(amount) over(order by (visited_on) ROWS BETWEEN 6 preceding and CURRENT ROW  ),2) as average_amount from tmp
--- group by visited_on
--- order  by visited_on
--- limit 10
--- -- offset 6 
+/* Write your PL/SQL query statement below */
+with dailysum as 
+(
+    select 
+    distinct visited_on
+    ,sum(amount) as ttlsum
+    from Customer
+    group by visited_on
+    order by visited_on
+)
+,movingsum as 
+(
+    select
+    visited_on
+    ,sum(ttlsum) over(order by  visited_on rows between 6 preceding and current row) as movingttlsum
+    ,  ROW_NUMBER() OVER (ORDER BY visited_on) AS rn
+    from dailysum
+)select to_char(visited_on) as visited_on,movingttlsum as amount, round(movingttlsum/7,2) as average_amount from movingsum  
+where rn>=7
 
 
-with tmp as (
-select visited_on, sum(amount) amount
-from Customer
-group by visited_on
-order by visited_on ) 
-select visited_on, sum(amount) over(order by (visited_on) ROWS BETWEEN 6 preceding and CURRENT ROW  )as amount,round(sum(amount) over(order by (visited_on) ROWS BETWEEN 6 preceding and CURRENT ROW  )/7 ,2)as average_amount from tmp
-limit 100000 offset 6
