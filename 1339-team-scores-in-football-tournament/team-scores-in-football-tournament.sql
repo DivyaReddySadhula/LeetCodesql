@@ -1,6 +1,5 @@
 /* Write your PL/SQL query statement below */
 WITH score AS (
-    -- Points when the team is host
     SELECT 
         m.host_team AS team_id,
         CASE 
@@ -11,8 +10,6 @@ WITH score AS (
     FROM matches m
 
     UNION ALL
-
-    -- Points when the team is guest
     SELECT 
         m.guest_team AS team_id,
         CASE 
