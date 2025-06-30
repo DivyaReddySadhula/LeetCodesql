@@ -1,14 +1,4 @@
 /* Write your PL/SQL query statement below */
--- SELECT 
---   LISTAGG(t1.topping_name || ',' || t2.topping_name || ',' || t3.topping_name, '') AS pizza,
---   t1.cost + t2.cost + t3.cost AS total_cost
--- FROM toppings t1
--- JOIN toppings t2 ON t1.topping_name < t2.topping_name
--- JOIN toppings t3 ON t2.topping_name < t3.topping_name
--- GROUP BY 
---   t1.topping_name, t2.topping_name, t3.topping_name,
---   t1.cost, t2.cost, t3.cost
--- ORDER BY total_cost DESC;
 with cte as 
 (
     select 
